@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35219.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripPlanServer", "TripPlanServer\TripPlanServer.csproj", "{204038E8-3C5A-4CD0-82F8-4FD7564A7C5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{204038E8-3C5A-4CD0-82F8-4FD7564A7C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{204038E8-3C5A-4CD0-82F8-4FD7564A7C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{204038E8-3C5A-4CD0-82F8-4FD7564A7C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{204038E8-3C5A-4CD0-82F8-4FD7564A7C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BEE1441A-ECE2-4528-B762-90305E7C8B33}
+	EndGlobalSection
+EndGlobal
