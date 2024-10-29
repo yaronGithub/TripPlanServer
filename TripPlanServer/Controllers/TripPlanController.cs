@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TripPlanServer.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+
 namespace TasksManagementServer.Controllers
 {
     [Route("api")]
@@ -19,6 +20,58 @@ namespace TasksManagementServer.Controllers
             this.context = context;
             this.webHostEnvironment = env;
         }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] TripPlanServer.DTO.LoginInfo loginDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                //Get model user class from DB with matching email. 
+                TripPlanServer.Models.User? modelsUser = context.GetUser(loginDto.Email);
+
+                //Check if user exist for this email and if password match, if not return Access Denied (Error 403) 
+                if (modelsUser == null || modelsUser.Passwd != loginDto.Passwd)
+                {
+                    return Unauthorized();
+                }
+
+                //Login suceed! now mark login in session memory!
+                HttpContext.Session.SetString("loggedInUser", modelsUser.Email);
+
+                TripPlanServer.DTO.User dtoUser = new TripPlanServer.DTO.User(modelsUser);
+                return Ok(dtoUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] TripPlanServer.DTO.User userDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                //Create model user class
+                TripPlanServer.Models.User modelsUser = userDto.GetModels();
+
+                context.Users.Add(modelsUser);
+                context.SaveChanges();
+
+                //User was added!
+                TripPlanServer.DTO.User dtoUser = new TripPlanServer.DTO.User(modelsUser);
+                return Ok(dtoUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpGet("test")]
         public IActionResult Test()

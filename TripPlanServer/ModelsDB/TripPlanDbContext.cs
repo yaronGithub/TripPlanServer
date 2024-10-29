@@ -6,5 +6,5 @@ namespace TripPlanServer.Models;
 
 public partial class TripPlanDbContext : DbContext
 {
-
+    
 }
