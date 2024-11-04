@@ -4,7 +4,7 @@ using TripPlanServer.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
-namespace TasksManagementServer.Controllers
+namespace TripPlanServer.Controllers
 {
     [Route("api")]
     [ApiController]
