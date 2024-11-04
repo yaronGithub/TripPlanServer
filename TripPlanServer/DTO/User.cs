@@ -14,7 +14,7 @@ namespace TripPlanServer.DTO
 
         public string Passwd { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
-        public int PicId { get; set; }
+        public int? PicId { get; set; }
 
 
         public User() { }
