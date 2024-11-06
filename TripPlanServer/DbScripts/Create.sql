@@ -99,7 +99,7 @@ add PicId int foreign key references Pictures(PicId)
 INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber)
 VALUES ('Yaron', 'Traitel', 'yaron.traitel@gmail.com', '1234', '0584060218');
 
-
+select * from Users
 
 
 
