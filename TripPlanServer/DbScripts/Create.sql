@@ -95,6 +95,14 @@ CONSTRAINT PK_FavoritesPlan PRIMARY KEY (PlanId,UserId),
 alter table Users
 add PicId int foreign key references Pictures(PicId)
 
+-- Insert a user into the users table
+INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber)
+VALUES ('Yaron', 'Traitel', 'yaron.traitel@gmail.com', '1234', '0584060218');
+
+
+
+
+
 -- Create a login for the admin user
 
 CREATE LOGIN [TripPlanAdminLogin] WITH PASSWORD =
