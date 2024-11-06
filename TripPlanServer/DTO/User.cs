@@ -14,11 +14,8 @@ namespace TripPlanServer.DTO
 
         public string Passwd { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
-        public int PicId { get; set; }
+        public int? PicId { get; set; }
 
-        public virtual ICollection<PlanGroup> PlanGroups { get; set; } = new List<PlanGroup>();
-        public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
-        public virtual ICollection<PlanGroup> Plans { get; set; } = new List<PlanGroup>();
 
         public User() { }
         public User(Models.User modelUser)
@@ -28,21 +25,6 @@ namespace TripPlanServer.DTO
             this.LastName = modelUser.LastName;
             this.Email = modelUser.Email;
             this.Passwd = modelUser.Passwd;
-            this.PlanGroups = new List<PlanGroup>();
-            this.Reviews = new List<Review>();
-            this.Plans = new List<PlanGroup>();
-            foreach (var planGroup in modelUser.PlanGroups)
-            {
-                this.PlanGroups.Add(planGroup);
-            }
-            foreach (var review in modelUser.Reviews)
-            {
-                this.Reviews.Add(review);
-            }
-            foreach (var plan in modelUser.Plans)
-            {
-                this.Plans.Add(plan);
-            }
         }
 
         public Models.User GetModels()
