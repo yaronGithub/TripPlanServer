@@ -15,7 +15,7 @@ namespace TripPlanServer.DTO
         public string Passwd { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public int? PicId { get; set; }
-
+        public string ProfileImagePath { get; set; } = "";
 
         public User() { }
         public User(Models.User modelUser)
