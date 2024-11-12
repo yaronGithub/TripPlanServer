@@ -25,6 +25,7 @@ namespace TripPlanServer.DTO
             this.LastName = modelUser.LastName;
             this.Email = modelUser.Email;
             this.Passwd = modelUser.Passwd;
+            this.PhoneNumber = modelUser.PhoneNumber;
         }
 
         public Models.User GetModels()
