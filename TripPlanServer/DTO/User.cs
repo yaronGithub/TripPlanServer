@@ -16,6 +16,7 @@ namespace TripPlanServer.DTO
         public string PhoneNumber { get; set; } = null!;
         public int? PicId { get; set; }
         public string ProfileImagePath { get; set; } = "";
+        public bool IsManager { get; set; }
 
         public User() { }
         public User(Models.User modelUser)
@@ -26,6 +27,7 @@ namespace TripPlanServer.DTO
             this.Email = modelUser.Email;
             this.Passwd = modelUser.Passwd;
             this.PhoneNumber = modelUser.PhoneNumber;
+            this.IsManager = modelUser.IsManager;
         }
 
         public Models.User GetModels()
@@ -39,6 +41,7 @@ namespace TripPlanServer.DTO
                 Passwd = this.Passwd,
                 PhoneNumber = this.PhoneNumber,
                 PicId = this.PicId,
+                IsManager = this.IsManager
             };
 
             return modelsUser;

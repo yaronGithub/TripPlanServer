@@ -19,6 +19,7 @@ LastName nvarchar(50) not null,
 Email nvarchar(50) unique not null,
 Passwd nvarchar(50) not null,
 PhoneNumber nvarchar(50) not null,
+IsManager bit Not Null Default 0
 )
 
 create table PlanGroup
@@ -96,8 +97,8 @@ alter table Users
 add PicId int foreign key references Pictures(PicId)
 
 -- Insert a user into the users table
-INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber)
-VALUES ('Yaron', 'Traitel', 'yaron.traitel@gmail.com', '1234', '0584060218');
+INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
+VALUES ('admin', 'Traitel', 'admin@gmail.com', '1234a', '0559394845', 1);
 
 select * from Users
 

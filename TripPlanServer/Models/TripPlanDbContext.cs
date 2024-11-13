@@ -37,34 +37,34 @@ public partial class TripPlanDbContext : DbContext
     {
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0BB5FBF7EB");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0BD517B2A5");
         });
 
         modelBuilder.Entity<Picture>(entity =>
         {
-            entity.HasKey(e => e.PicId).HasName("PK__Pictures__B04A93C1B828B792");
+            entity.HasKey(e => e.PicId).HasName("PK__Pictures__B04A93C1EC799C09");
 
-            entity.HasOne(d => d.Place).WithMany(p => p.Pictures).HasConstraintName("FK__Pictures__PlaceI__3C69FB99");
+            entity.HasOne(d => d.Place).WithMany(p => p.Pictures).HasConstraintName("FK__Pictures__PlaceI__3D5E1FD2");
 
-            entity.HasOne(d => d.Plan).WithMany(p => p.Pictures).HasConstraintName("FK__Pictures__PlanId__3B75D760");
+            entity.HasOne(d => d.Plan).WithMany(p => p.Pictures).HasConstraintName("FK__Pictures__PlanId__3C69FB99");
 
             entity.HasOne(d => d.PlanPlace).WithMany(p => p.Pictures).HasConstraintName("FK_PicturesPlan");
         });
 
         modelBuilder.Entity<Place>(entity =>
         {
-            entity.HasKey(e => e.PlaceId).HasName("PK__Places__D5222B6E3E4626D7");
+            entity.HasKey(e => e.PlaceId).HasName("PK__Places__D5222B6E0CAA689E");
 
             entity.Property(e => e.PlaceId).ValueGeneratedNever();
 
-            entity.HasOne(d => d.Category).WithMany(p => p.Places).HasConstraintName("FK__Places__Category__34C8D9D1");
+            entity.HasOne(d => d.Category).WithMany(p => p.Places).HasConstraintName("FK__Places__Category__35BCFE0A");
         });
 
         modelBuilder.Entity<PlanGroup>(entity =>
         {
-            entity.HasKey(e => e.PlanId).HasName("PK__PlanGrou__755C22B74CB15D62");
+            entity.HasKey(e => e.PlanId).HasName("PK__PlanGrou__755C22B776857131");
 
-            entity.HasOne(d => d.User).WithMany(p => p.PlanGroups).HasConstraintName("FK__PlanGroup__UserI__276EDEB3");
+            entity.HasOne(d => d.User).WithMany(p => p.PlanGroups).HasConstraintName("FK__PlanGroup__UserI__286302EC");
 
             entity.HasMany(d => d.Users).WithMany(p => p.Plans)
                 .UsingEntity<Dictionary<string, object>>(
@@ -72,11 +72,11 @@ public partial class TripPlanDbContext : DbContext
                     r => r.HasOne<User>().WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__Favorites__UserI__412EB0B6"),
+                        .HasConstraintName("FK__Favorites__UserI__4222D4EF"),
                     l => l.HasOne<PlanGroup>().WithMany()
                         .HasForeignKey("PlanId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__Favorites__PlanI__403A8C7D"),
+                        .HasConstraintName("FK__Favorites__PlanI__412EB0B6"),
                     j =>
                     {
                         j.HasKey("PlanId", "UserId").HasName("PK_FavoritesPlan");
@@ -89,11 +89,11 @@ public partial class TripPlanDbContext : DbContext
                     r => r.HasOne<User>().WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__UserGroup__UserI__2C3393D0"),
+                        .HasConstraintName("FK__UserGroup__UserI__2D27B809"),
                     l => l.HasOne<PlanGroup>().WithMany()
                         .HasForeignKey("PlanId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__UserGroup__PlanI__2B3F6F97"),
+                        .HasConstraintName("FK__UserGroup__PlanI__2C3393D0"),
                     j =>
                     {
                         j.HasKey("PlanId", "UserId");
@@ -105,27 +105,27 @@ public partial class TripPlanDbContext : DbContext
         {
             entity.HasOne(d => d.Place).WithMany(p => p.PlanPlaces)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PlanPlace__Place__37A5467C");
+                .HasConstraintName("FK__PlanPlace__Place__38996AB5");
 
             entity.HasOne(d => d.Plan).WithMany(p => p.PlanPlaces)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PlanPlace__PlanI__38996AB5");
+                .HasConstraintName("FK__PlanPlace__PlanI__398D8EEE");
         });
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__Reviews__74BC79CE4C8CA0E9");
+            entity.HasKey(e => e.ReviewId).HasName("PK__Reviews__74BC79CE1856A692");
 
-            entity.HasOne(d => d.Plan).WithMany(p => p.Reviews).HasConstraintName("FK__Reviews__PlanId__2F10007B");
+            entity.HasOne(d => d.Plan).WithMany(p => p.Reviews).HasConstraintName("FK__Reviews__PlanId__300424B4");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Reviews).HasConstraintName("FK__Reviews__UserId__300424B4");
+            entity.HasOne(d => d.User).WithMany(p => p.Reviews).HasConstraintName("FK__Reviews__UserId__30F848ED");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CDCAB5A83");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C06FF2BF5");
 
-            entity.HasOne(d => d.Pic).WithMany(p => p.Users).HasConstraintName("FK__Users__PicId__4222D4EF");
+            entity.HasOne(d => d.Pic).WithMany(p => p.Users).HasConstraintName("FK__Users__PicId__4316F928");
         });
 
         OnModelCreatingPartial(modelBuilder);
