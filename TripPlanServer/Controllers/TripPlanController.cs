@@ -22,6 +22,13 @@ namespace TripPlanServer.Controllers
         }
 
 
+        [HttpGet("getAllPlannings")]
+        public IActionResult GetAllPlannings([FromBody] string email)
+        {
+            return Ok("All Plannings");
+        }
+
+
         [HttpPost("addPlanning")]
         public IActionResult AddPlanning([FromBody] DTO.PlanGroup userPlanDto)
         {
@@ -73,7 +80,6 @@ namespace TripPlanServer.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
 
@@ -97,7 +103,7 @@ namespace TripPlanServer.Controllers
                 //this situation is ok only if the user is a manager
                 if (user == null || (user.IsManager == false && userPlanDto.UserId != user.UserId))
                 {
-                    return Unauthorized("Non Manager User is trying to update a task for a different user");
+                    return Unauthorized("Non Manager User is trying to update a plan for a different user");
                 }
 
                 Models.PlanGroup plan = new PlanGroup()

@@ -10,4 +10,9 @@ public partial class TripPlanDbContext : DbContext
     {
         return this.Users.Where(u => u.Email == email).FirstOrDefault();
     }
+
+    public List<PlanGroup> GetAllPlanningsByEmail(string email)
+    {
+        return this.PlanGroups.Where(pg => pg.Users.Any(u => u.Email == email)).ToList();
+    }
 }
