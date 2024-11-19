@@ -21,6 +21,147 @@ namespace TripPlanServer.Controllers
             this.webHostEnvironment = env;
         }
 
+
+        [HttpPost("addPlanning")]
+        public IActionResult AddPlanning([FromBody] DTO.PlanGroup userPlanDto)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userEmail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                //Check if the user that is logged in is the same user of the task
+                //this situation is ok only if the user is a manager
+                if (user == null || (user.IsManager == false && userPlanDto.UserId != user.UserId))
+                {
+                    return Unauthorized("Non Manager User is trying to add a task for a different user");
+                }
+
+                Models.PlanGroup plan = new PlanGroup()
+                {
+                    UserId = userPlanDto.UserId,
+                    GroupName = userPlanDto.GroupName,
+                    GroupDescription = userPlanDto.GroupDescription,
+                    IsPublished = userPlanDto.IsPublished,
+                    StartDate = userPlanDto.StartDate,
+                    EndDate = userPlanDto.EndDate,
+                    Pictures = (ICollection<Picture>)userPlanDto.Pictures,
+                    PlanPlaces = (ICollection<PlanPlace>)userPlanDto.PlanPlaces,
+                    Reviews = (ICollection<Review>)userPlanDto.Reviews,
+                    //User = userPlanDto.User,
+                    Users = (ICollection<User>)userPlanDto.Users,
+                    UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
+                    PlanId = userPlanDto.PlanId
+                };
+
+                context.Entry(plan).State = EntityState.Added;
+                context.SaveChanges();
+
+                //Task was added!
+                return Ok(new DTO.PlanGroup(plan));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+        [HttpPost("updatePlanning")]
+        public IActionResult UpdatePlanning([FromBody] DTO.PlanGroup userPlanDto)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userEmail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+                //Check if the user that is logged in is the same user of the task
+                //this situation is ok only if the user is a manager
+                if (user == null || (user.IsManager == false && userPlanDto.UserId != user.UserId))
+                {
+                    return Unauthorized("Non Manager User is trying to update a task for a different user");
+                }
+
+                Models.PlanGroup plan = new PlanGroup()
+                {
+                    UserId = userPlanDto.UserId,
+                    GroupName = userPlanDto.GroupName,
+                    GroupDescription = userPlanDto.GroupDescription,
+                    IsPublished = userPlanDto.IsPublished,
+                    StartDate = userPlanDto.StartDate,
+                    EndDate = userPlanDto.EndDate,
+                    Pictures = (ICollection<Picture>)userPlanDto.Pictures,
+                    PlanPlaces = (ICollection<PlanPlace>)userPlanDto.PlanPlaces,
+                    Reviews = (ICollection<Review>)userPlanDto.Reviews,
+                    //User = userPlanDto.User,
+                    Users = (ICollection<User>)userPlanDto.Users,
+                    UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
+                    PlanId = userPlanDto.PlanId
+                };
+
+                context.Entry(plan).State = EntityState.Modified;
+
+                //Now loop through the comments and update / add all of them
+                foreach (var review in userPlanDto.Reviews)
+                {
+                    //check if comment is new or not
+                    if (review.ReviewId == 0)
+                    {
+                        //New comment
+                        Models.Review newPlanReview = new Review()
+                        {
+                            PlanId = plan.PlanId,
+                            ReviewDate = review.ReviewDate,
+                            ReviewText = review.ReviewText
+                        };
+
+                        context.Entry(newPlanReview).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        //Update the existing comment
+                        Models.Review planReview = new Review()
+                        {
+                            PlanId = plan.PlanId,
+                            ReviewId = review.ReviewId,
+                            ReviewDate = review.ReviewDate,
+                            ReviewText = review.ReviewText
+                        };
+
+                        context.Entry(planReview).State = EntityState.Modified;
+                    }
+
+                }
+                context.SaveChanges();
+
+                //Plan was updated!
+                return Ok(new DTO.PlanGroup(plan));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] TripPlanServer.DTO.LoginInfo loginDto)
         {

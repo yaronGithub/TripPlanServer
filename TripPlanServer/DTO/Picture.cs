@@ -15,5 +15,16 @@ namespace TripPlanServer.DTO
         public virtual PlanPlace? PlanPlace { get; set; }
         public virtual ICollection<User> Users { get; set; } = new List<User>();
         public Picture() { }
+        public Picture(Models.Picture picture)
+        {
+            this.PicId = picture.PicId;
+            this.PlanId = picture.PlanId;
+            this.PlaceId = picture.PlaceId;
+            this.PicExt = picture.PicExt;
+            //this.Place = picture.Place;
+            //this.Plan = picture.Plan;
+            //this.PlanPlace = picture.PlanPlace;
+            this.Users = (ICollection<User>)picture.Users;
+        }
     }
 }

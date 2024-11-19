@@ -47,7 +47,8 @@ Title nvarchar(50) not null,
 PlanId int foreign key References PlanGroup(PlanId),
 UserId int foreign key References Users(UserId),
 Stars int,
-ReviewText nvarchar(100) not null
+ReviewText nvarchar(100) not null,
+ReviewDate Date
 )
 
 create table Categories
@@ -101,6 +102,7 @@ INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
 VALUES ('admin', 'Traitel', 'admin@gmail.com', '1234a', '0559394845', 1);
 
 select * from Users
+select * from Reviews
 
 
 

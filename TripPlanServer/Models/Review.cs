@@ -23,6 +23,8 @@ public partial class Review
     [StringLength(100)]
     public string ReviewText { get; set; } = null!;
 
+    public DateOnly? ReviewDate { get; set; }
+
     [ForeignKey("PlanId")]
     [InverseProperty("Reviews")]
     public virtual PlanGroup? Plan { get; set; }

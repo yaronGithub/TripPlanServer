@@ -17,11 +17,23 @@ namespace TripPlanServer.DTO
         public int? Stars { get; set; }
 
         public string ReviewText { get; set; } = null!;
+        public DateOnly? ReviewDate { get; set; }
 
         public virtual PlanGroup? Plan { get; set; }
 
         public virtual User? User { get; set; }
 
         public Review() { }
+        public Review(Models.Review review) 
+        {
+            this.ReviewId = review.ReviewId;
+            this.Title = review.Title;
+            this.PlanId = review.PlanId;
+            this.UserId = review.UserId;
+            this.Stars = review.Stars;
+            this.ReviewText = review.ReviewText;
+            //this.Plan = review.Plan;
+            //this.User = review.User;
+        }
     }
 }

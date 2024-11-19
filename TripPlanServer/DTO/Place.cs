@@ -18,5 +18,18 @@ namespace TripPlanServer.DTO
         public virtual ICollection<PlanPlace> PlanPlaces { get; set; } = new List<PlanPlace>();
 
         public Place() { }
+        public Place(Models.Place place)
+        {
+            this.PlaceId = place.PlaceId;
+            this.PlacePicUrl = place.PlacePicUrl;
+            this.PlaceName = place.PlaceName;
+            this.CategoryId = place.CategoryId;
+            this.PlaceDescription = place.PlaceDescription;
+            this.Xcoor = place.Xcoor;
+            this.Ycoor = place.Ycoor;
+            //this.Category = place.Category;
+            this.Pictures = (ICollection<Picture>)place.Pictures;
+            this.PlanPlaces = (ICollection<PlanPlace>)place.PlanPlaces;
+        }
     }
 }

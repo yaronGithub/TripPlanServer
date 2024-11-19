@@ -24,5 +24,21 @@ namespace TripPlanServer.DTO
         public virtual ICollection<User> UsersNavigation { get; set; } = new List<User>();
 
         public PlanGroup() { }
+        public PlanGroup(Models.PlanGroup planGroup) 
+        {
+            this.PlanId = planGroup.PlanId;
+            this.GroupName = planGroup.GroupName;
+            this.UserId = planGroup.UserId;
+            this.IsPublished = planGroup.IsPublished;
+            this.GroupDescription = planGroup.GroupDescription;
+            this.StartDate = planGroup.StartDate;
+            this.EndDate = planGroup.EndDate;
+            this.Pictures = (ICollection<Picture>)planGroup.Pictures;
+            this.PlanPlaces = (ICollection<PlanPlace>)planGroup.PlanPlaces;
+            this.Reviews = (ICollection<Review>)planGroup.Reviews;
+            //this.User = planGroup.User;
+            this.Users = (ICollection<User>)planGroup.Users;
+            this.UsersNavigation = (ICollection<User>)planGroup.UsersNavigation;
+        }
     }
 }
