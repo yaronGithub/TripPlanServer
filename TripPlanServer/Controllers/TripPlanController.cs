@@ -23,7 +23,7 @@ namespace TripPlanServer.Controllers
 
 
         [HttpGet("getAllPlannings")]
-        public IActionResult GetAllPlannings([FromBody] string email)
+        public IActionResult GetAllPlannings([FromQuery] string email)
         {
             try
             {
