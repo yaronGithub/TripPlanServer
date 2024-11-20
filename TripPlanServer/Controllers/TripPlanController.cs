@@ -25,7 +25,32 @@ namespace TripPlanServer.Controllers
         [HttpGet("getAllPlannings")]
         public IActionResult GetAllPlannings([FromBody] string email)
         {
-            return Ok("All Plannings");
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<PlanGroup>? planGroups;
+                if (email == "")
+                {
+                    planGroups = context.GetAllPublishedPlannings();
+                }else
+                {
+                    planGroups = context.GetAllPlanningsByEmail(email);
+                }
+                
+
+                // Return the plannings
+                return Ok(planGroups);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 

@@ -15,4 +15,9 @@ public partial class TripPlanDbContext : DbContext
     {
         return this.PlanGroups.Where(pg => pg.Users.Any(u => u.Email == email)).ToList();
     }
+
+    public List<PlanGroup>? GetAllPublishedPlannings()
+    {
+        return this.PlanGroups.Where(pg => pg.IsPublished == true).ToList();
+    }
 }
