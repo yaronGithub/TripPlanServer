@@ -101,9 +101,18 @@ add PicId int foreign key references Pictures(PicId)
 INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
 VALUES ('admin', 'Traitel', 'admin@gmail.com', '1234a', '0559394845', 1);
 
-select * from Users
-select * from Reviews
+INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
+VALUES ('Yaron', 'Traitel', 'yaron@gmail.com', '1234a', '0559394844', 0);
 
+INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
+VALUES ('Family', 2, 0, 'The group of the family!', '2024-1-17', '2024-2-21');
+
+INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
+VALUES ('ADADAD', 2, 0, 'The group of the family!', '2024-1-17', '2024-2-21');
+
+
+select * from Users
+select * from PlanGroup
 
 
 -- Create a login for the admin user
