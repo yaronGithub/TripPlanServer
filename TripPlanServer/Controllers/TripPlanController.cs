@@ -35,7 +35,7 @@ namespace TripPlanServer.Controllers
                 }
 
                 List<PlanGroup>? planGroups;
-                if (email == "")
+                if (email == "all")
                 {
                     planGroups = context.GetAllPublishedPlannings();
                 }else

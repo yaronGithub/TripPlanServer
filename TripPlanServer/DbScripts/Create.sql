@@ -104,12 +104,21 @@ VALUES ('admin', 'Traitel', 'admin@gmail.com', '1234a', '0559394845', 1);
 INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
 VALUES ('Yaron', 'Traitel', 'yaron@gmail.com', '1234a', '0559394844', 0);
 
+INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
+VALUES ('yosef', 'benzo', 'yosef@gmail.com', '1234a', '0559698849', 0);
+
 INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
 VALUES ('Family', 2, 0, 'The group of the family!', '2024-1-17', '2024-2-21');
 
 INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
 VALUES ('ADADAD', 2, 0, 'The group of the family!', '2024-1-17', '2024-2-21');
 
+
+INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
+VALUES ('OferFamily', 3, 1, 'The group of the family!', '2024-1-17', '2024-2-21');
+
+INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
+VALUES ('BibiGroup', 3, 1, 'The group of the family!', '2024-1-17', '2024-2-21');
 
 select * from Users
 select * from PlanGroup
