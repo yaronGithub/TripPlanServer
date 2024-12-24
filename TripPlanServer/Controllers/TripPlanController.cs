@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TripPlanServer.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace TripPlanServer.Controllers
 {
@@ -71,7 +72,7 @@ namespace TripPlanServer.Controllers
                 //Clear the tracking of all objects to avoid double tracking
                 context.ChangeTracker.Clear();
 
-                //Check if the user that is logged in is the same user of the task
+                //Check if the user that is logged in is the same user of the planning
                 //this situation is ok only if the user is a manager
                 if (user == null || (user.IsManager == false && userPlanDto.UserId != user.UserId))
                 {
@@ -86,12 +87,12 @@ namespace TripPlanServer.Controllers
                     IsPublished = userPlanDto.IsPublished,
                     StartDate = userPlanDto.StartDate,
                     EndDate = userPlanDto.EndDate,
-                    Pictures = (ICollection<Picture>)userPlanDto.Pictures,
-                    PlanPlaces = (ICollection<PlanPlace>)userPlanDto.PlanPlaces,
-                    Reviews = (ICollection<Review>)userPlanDto.Reviews,
+                    Pictures = new List<Picture>(),
+                    PlanPlaces = new List<PlanPlace>(),
+                    Reviews = new List<Review>(),
                     //User = userPlanDto.User,
-                    Users = (ICollection<User>)userPlanDto.Users,
-                    UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
+                    Users = new List<User>(),
+                    UsersNavigation = new List<User>(),
                     PlanId = userPlanDto.PlanId
                 };
 

@@ -121,6 +121,7 @@ VALUES ('BibiGroup', 3, 1, 'The group of the family!', '2024-1-17', '2024-2-21')
 
 select * from Users
 select * from PlanGroup
+select * from PlanPlace
 
 
 -- Create a login for the admin user

@@ -20,4 +20,9 @@ public partial class TripPlanDbContext : DbContext
     {
         return this.PlanGroups.Where(pg => pg.IsPublished == true).ToList();
     }
+
+    public int GetFreePlanId()
+    {
+        return this.PlanGroups.Count()+1;
+    }
 }
