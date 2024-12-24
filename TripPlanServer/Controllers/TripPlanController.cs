@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
+
 namespace TripPlanServer.Controllers
 {
     [Route("api")]
@@ -140,12 +141,12 @@ namespace TripPlanServer.Controllers
                     IsPublished = userPlanDto.IsPublished,
                     StartDate = userPlanDto.StartDate,
                     EndDate = userPlanDto.EndDate,
-                    Pictures = (ICollection<Picture>)userPlanDto.Pictures,
-                    PlanPlaces = (ICollection<PlanPlace>)userPlanDto.PlanPlaces,
-                    Reviews = (ICollection<Review>)userPlanDto.Reviews,
+                    //Pictures = (ICollection<Picture>)userPlanDto.Pictures,
+                    //PlanPlaces = (ICollection<PlanPlace>)userPlanDto.PlanPlaces,
+                    //Reviews = (ICollection<Review>)userPlanDto.Reviews,
                     //User = userPlanDto.User,
-                    Users = (ICollection<User>)userPlanDto.Users,
-                    UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
+                    //Users = (ICollection<User>)userPlanDto.Users,
+                    //UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
                     PlanId = userPlanDto.PlanId
                 };
 

@@ -33,12 +33,37 @@ namespace TripPlanServer.DTO
             this.GroupDescription = planGroup.GroupDescription;
             this.StartDate = planGroup.StartDate;
             this.EndDate = planGroup.EndDate;
-            this.Pictures = (ICollection<Picture>)planGroup.Pictures;
-            this.PlanPlaces = (ICollection<PlanPlace>)planGroup.PlanPlaces;
-            this.Reviews = (ICollection<Review>)planGroup.Reviews;
+
+            this.Pictures = new List<Picture>();
+            foreach (var picture in planGroup.Pictures)
+            {
+                this.Pictures.Add(new Picture(picture));
+            }
+
+            this.PlanPlaces = new List<PlanPlace>();
+            foreach (var planPlace in planGroup.PlanPlaces)
+            {
+                this.PlanPlaces.Add(new PlanPlace(planPlace));
+            }
+
+            this.Reviews = new List<Review>();
+            foreach (var review in planGroup.Reviews)
+            {
+                this.Reviews.Add(new Review(review));
+            }
             //this.User = planGroup.User;
-            this.Users = (ICollection<User>)planGroup.Users;
-            this.UsersNavigation = (ICollection<User>)planGroup.UsersNavigation;
+
+            this.Users = new List<User>();
+            foreach (var user in planGroup.Users)
+            {
+                this.Users.Add(new User(user));
+            }
+
+            this.UsersNavigation = new List<User>();
+            foreach (var user in planGroup.UsersNavigation)
+            {
+                this.UsersNavigation.Add(new User(user));
+            }
         }
     }
 }
