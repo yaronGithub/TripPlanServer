@@ -72,8 +72,7 @@ create table PlanPlace
 (
 PlaceId int foreign key References Places(PlaceId),
 PlanId int foreign key References PlanGroup(PlanId),
-StartDate Date,
-EndDate Date,
+PlaceDate Date,
 CONSTRAINT PK_PlanPlace PRIMARY KEY (PlanId,PlaceId)
 
 )

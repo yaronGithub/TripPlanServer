@@ -16,9 +16,7 @@ public partial class PlanPlace
     [Key]
     public int PlanId { get; set; }
 
-    public DateOnly? StartDate { get; set; }
-
-    public DateOnly? EndDate { get; set; }
+    public DateOnly? PlaceDate { get; set; }
 
     [InverseProperty("PlanPlace")]
     public virtual ICollection<Picture> Pictures { get; set; } = new List<Picture>();

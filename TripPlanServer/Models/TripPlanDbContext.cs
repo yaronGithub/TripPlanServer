@@ -37,12 +37,12 @@ public partial class TripPlanDbContext : DbContext
     {
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0B5F39864F");
+            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0B2A22220E");
         });
 
         modelBuilder.Entity<Picture>(entity =>
         {
-            entity.HasKey(e => e.PicId).HasName("PK__Pictures__B04A93C1C3F23F30");
+            entity.HasKey(e => e.PicId).HasName("PK__Pictures__B04A93C1FA99E9FD");
 
             entity.HasOne(d => d.Place).WithMany(p => p.Pictures).HasConstraintName("FK__Pictures__PlaceI__3D5E1FD2");
 
@@ -53,7 +53,7 @@ public partial class TripPlanDbContext : DbContext
 
         modelBuilder.Entity<Place>(entity =>
         {
-            entity.HasKey(e => e.PlaceId).HasName("PK__Places__D5222B6E6D69C834");
+            entity.HasKey(e => e.PlaceId).HasName("PK__Places__D5222B6E4F195E88");
 
             entity.Property(e => e.PlaceId).ValueGeneratedNever();
 
@@ -62,7 +62,7 @@ public partial class TripPlanDbContext : DbContext
 
         modelBuilder.Entity<PlanGroup>(entity =>
         {
-            entity.HasKey(e => e.PlanId).HasName("PK__PlanGrou__755C22B7E293C67E");
+            entity.HasKey(e => e.PlanId).HasName("PK__PlanGrou__755C22B7D0F64A1D");
 
             entity.HasOne(d => d.User).WithMany(p => p.PlanGroups).HasConstraintName("FK__PlanGroup__UserI__286302EC");
 
@@ -114,7 +114,7 @@ public partial class TripPlanDbContext : DbContext
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__Reviews__74BC79CE87E9F587");
+            entity.HasKey(e => e.ReviewId).HasName("PK__Reviews__74BC79CE80C9AAC9");
 
             entity.HasOne(d => d.Plan).WithMany(p => p.Reviews).HasConstraintName("FK__Reviews__PlanId__300424B4");
 
@@ -123,7 +123,7 @@ public partial class TripPlanDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C084C398A");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C06225323");
 
             entity.HasOne(d => d.Pic).WithMany(p => p.Users).HasConstraintName("FK__Users__PicId__4316F928");
         });
