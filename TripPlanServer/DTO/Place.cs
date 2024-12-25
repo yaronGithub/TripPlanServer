@@ -13,6 +13,8 @@ namespace TripPlanServer.DTO
         public string PlaceDescription { get; set; } = null!;
         public double? Xcoor { get; set; }
         public double? Ycoor { get; set; }
+        public string? GooglePlaceId { get; set; }
+
         public virtual Category? Category { get; set; }
         public virtual ICollection<Picture> Pictures { get; set; } = new List<Picture>();
         public virtual ICollection<PlanPlace> PlanPlaces { get; set; } = new List<PlanPlace>();

@@ -65,7 +65,8 @@ PlaceName nvarchar(50) not null,
 CategoryId int foreign key References Categories(CategoryId),
 PlaceDescription nvarchar(100) not null,
 Xcoor float,
-Ycoor float
+Ycoor float,
+GooglePlaceId nvarchar(100)
 )
 
 create table PlanPlace

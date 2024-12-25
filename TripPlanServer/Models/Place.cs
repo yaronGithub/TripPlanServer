@@ -27,6 +27,9 @@ public partial class Place
 
     public double? Ycoor { get; set; }
 
+    [StringLength(100)]
+    public string? GooglePlaceId { get; set; }
+
     [ForeignKey("CategoryId")]
     [InverseProperty("Places")]
     public virtual Category? Category { get; set; }

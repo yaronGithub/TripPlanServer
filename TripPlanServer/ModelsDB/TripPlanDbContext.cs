@@ -25,4 +25,17 @@ public partial class TripPlanDbContext : DbContext
     {
         return this.PlanGroups.Count()+1;
     }
+
+
+    public List<PlanPlace>? GetAllPlacesByEmail(string email)
+    {
+        //return this.PlanPlaces.Where(pp => pp.Plan.User.Email == email).ToList();
+        return null;
+    }
+
+    public List<PlanPlace>? GetAllPlacesByEmailAndDate(string email, string dayDate)
+    {
+        //throw new NotImplementedException();
+        return null;
+    }
 }

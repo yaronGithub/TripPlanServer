@@ -23,6 +23,102 @@ namespace TripPlanServer.Controllers
             this.webHostEnvironment = env;
         }
 
+        [HttpPost("addPlace")]
+        public IActionResult AddPlace([FromBody] DTO.PlanPlace planPlaceDto)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userEmail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                //Check if the user that is logged in is the same user of the planning
+                //this situation is ok only if the user is a manager
+                if (user == null || (user.IsManager == false /*&& userPlanDto.UserId != user.UserId*/))
+                {
+                    return Unauthorized("Non Manager User is trying to add a task for a different user");
+                }
+
+                Models.PlanPlace planPlace = new PlanPlace()
+                {
+                    PlaceId = planPlaceDto.PlaceId,
+                    PlanId = planPlaceDto.PlanId,
+                    PlaceDate = planPlaceDto.PlaceDate,
+                    Pictures = new List<Picture>(),
+                    Place = new Place()
+                    {
+                        CategoryId = planPlaceDto.Place.CategoryId,
+                        GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
+                        PlaceDescription = planPlaceDto.Place.PlaceDescription,
+                        PlaceId = planPlaceDto.Place.PlaceId,
+                        PlaceName = planPlaceDto.Place.PlaceName,
+                        PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
+                        Xcoor = planPlaceDto.Place.Xcoor,
+                        Ycoor = planPlaceDto.Place.Ycoor
+                    },
+                    Plan = new PlanGroup()
+                    {
+                        EndDate = planPlaceDto.Plan.EndDate,
+                        GroupDescription = planPlaceDto.Plan.GroupDescription,
+                        GroupName = planPlaceDto.Plan.GroupName,
+                        IsPublished = planPlaceDto.Plan.IsPublished,
+                        PlanId = planPlaceDto.Plan.PlanId,
+                        StartDate = planPlaceDto.Plan.StartDate,
+                        Pictures = new List<Picture>(),
+                    }
+                };
+
+                context.Entry(planPlace).State = EntityState.Added;
+                context.SaveChanges();
+
+                //Plan Place was added!
+                return Ok(new DTO.PlanPlace(planPlace));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("getAllPlaces")]
+        public IActionResult GetAllPlaces([FromQuery] string email, [FromQuery] string dayDate)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<PlanPlace>? planPlaces;
+                if (dayDate == "all")
+                {
+                    planPlaces = context.GetAllPlacesByEmail(email);
+                }else
+                {
+                    planPlaces = context.GetAllPlacesByEmailAndDate(email, dayDate);
+                }
+
+
+                // Return the plannings
+                return Ok(planPlaces);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpGet("getAllPlannings")]
         public IActionResult GetAllPlannings([FromQuery] string email)
@@ -92,7 +188,7 @@ namespace TripPlanServer.Controllers
                     PlanPlaces = new List<PlanPlace>(),
                     Reviews = new List<Review>(),
                     //User = userPlanDto.User,
-                    Users = new List<User>(),
+                    //Users = new List<User>(),
                     UsersNavigation = new List<User>(),
                     PlanId = userPlanDto.PlanId
                 };

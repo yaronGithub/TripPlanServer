@@ -28,8 +28,22 @@ namespace TripPlanServer.DTO
             {
                 this.Pictures.Add(new Picture(picture));
             }
-            //this.Place = planPlace.Place;
-            //this.Plan = planPlace.Plan;
+            this.Place = new Place() 
+            {
+                PlaceId = this.PlaceId,
+                PlacePicUrl = planPlace.Place.PlacePicUrl,
+                PlaceName = planPlace.Place.PlaceName,
+                CategoryId = planPlace
+                .Place
+                    .CategoryId,
+                PlaceDescription = planPlace.Place.PlaceDescription,
+                Xcoor = planPlace.Place.Xcoor,
+                Ycoor = planPlace.Place.Ycoor,
+                GooglePlaceId = planPlace.Place.GooglePlaceId,
+                //Pictures = planPlace.Place.Pictures,
+                //PlanPlaces = planPlace.Place.PlanPlaces
+            };
+            this.Plan = new PlanGroup(planPlace.Plan);
         }
     }
 }
