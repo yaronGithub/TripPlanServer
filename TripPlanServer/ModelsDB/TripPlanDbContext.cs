@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TripPlanServer.Models;
 
@@ -29,13 +30,19 @@ public partial class TripPlanDbContext : DbContext
 
     public List<PlanPlace>? GetAllPlacesByEmail(string email, int planId)
     {
-        //return this.PlanPlaces.Where(pp => pp.Plan.User.Email == email).ToList();
-        return null;
+        return this.PlanPlaces
+        .Where(pp => pp.PlanId == planId &&
+                     (pp.Plan.User != null && pp.Plan.User.Email == email || pp.Plan.Users.Any(u => u.Email == email)))
+        .ToList();
     }
 
     public List<PlanPlace>? GetAllPlacesByEmailAndDate(string email, string dayDate, int planId)
     {
-        //throw new NotImplementedException();
-        return null;
+        return this.PlanPlaces
+        .Where(pp => pp.PlanId == planId &&
+                     pp.PlaceDate.HasValue &&
+                     pp.PlaceDate.Value.ToString("MM/dd/yyyy") == dayDate &&
+                     (pp.Plan.User.Email == email || pp.Plan.Users.Any(u => u.Email == email)))
+        .ToList();
     }
 }
