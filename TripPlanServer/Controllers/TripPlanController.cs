@@ -89,7 +89,7 @@ namespace TripPlanServer.Controllers
         }
 
         [HttpGet("getAllPlaces")]
-        public IActionResult GetAllPlaces([FromQuery] string email, [FromQuery] string dayDate)
+        public IActionResult GetAllPlaces([FromQuery] string email, [FromQuery] string dayDate, [FromQuery] int planId)
         {
             try
             {
@@ -103,10 +103,10 @@ namespace TripPlanServer.Controllers
                 List<PlanPlace>? planPlaces;
                 if (dayDate == "all")
                 {
-                    planPlaces = context.GetAllPlacesByEmail(email);
+                    planPlaces = context.GetAllPlacesByEmail(email, planId);
                 }else
                 {
-                    planPlaces = context.GetAllPlacesByEmailAndDate(email, dayDate);
+                    planPlaces = context.GetAllPlacesByEmailAndDate(email, dayDate, planId);
                 }
 
 

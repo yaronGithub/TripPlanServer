@@ -27,13 +27,13 @@ public partial class TripPlanDbContext : DbContext
     }
 
 
-    public List<PlanPlace>? GetAllPlacesByEmail(string email)
+    public List<PlanPlace>? GetAllPlacesByEmail(string email, int planId)
     {
         //return this.PlanPlaces.Where(pp => pp.Plan.User.Email == email).ToList();
         return null;
     }
 
-    public List<PlanPlace>? GetAllPlacesByEmailAndDate(string email, string dayDate)
+    public List<PlanPlace>? GetAllPlacesByEmailAndDate(string email, string dayDate, int planId)
     {
         //throw new NotImplementedException();
         return null;
