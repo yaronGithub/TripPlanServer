@@ -60,7 +60,7 @@ CategoryName nvarchar(50) not null,
 create table Places
 (
 PlaceId int primary key,
-PlacePicURL nvarchar(70) not null,
+PlacePicURL nvarchar(400) not null,
 PlaceName nvarchar(50) not null,
 CategoryId int foreign key References Categories(CategoryId),
 PlaceDescription nvarchar(100) not null,
@@ -97,32 +97,48 @@ CONSTRAINT PK_FavoritesPlan PRIMARY KEY (PlanId,UserId),
 alter table Users
 add PicId int foreign key references Pictures(PicId)
 
--- Insert a user into the users table
-INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
-VALUES ('admin', 'Traitel', 'admin@gmail.com', '1234a', '0559394845', 1);
-
-INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
-VALUES ('Yaron', 'Traitel', 'yaron@gmail.com', '1234a', '0559394844', 0);
-
-INSERT INTO Users(FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
-VALUES ('yosef', 'benzo', 'yosef@gmail.com', '1234a', '0559698849', 0);
-
-INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
-VALUES ('Family', 2, 0, 'The group of the family!', '2024-1-17', '2024-2-21');
-
-INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
-VALUES ('ADADAD', 2, 0, 'The group of the family!', '2024-1-17', '2024-2-21');
 
 
-INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
-VALUES ('OferFamily', 3, 1, 'The group of the family!', '2024-1-17', '2024-2-21');
+-- Insert Categories [ADDED]
+INSERT INTO Categories (CategoryName) VALUES ('Parks'), ('Landmarks'); -- [ADDED]
 
-INSERT INTO PlanGroup(GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
-VALUES ('BibiGroup', 3, 1, 'The group of the family!', '2024-1-17', '2024-2-21');
+-- Insert Users
+INSERT INTO Users (FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
+VALUES 
+    ('admin', 'Traitel', 'admin@gmail.com', '1234a', '0559394845', 1),
+    ('Yaron', 'Traitel', 'yaron@gmail.com', '1234a', '0559394844', 0),
+    ('Yosef', 'Benzo', 'yosef@gmail.com', '1234a', '0559698849', 0),
+    ('John', 'Doe', 'john.doe@gmail.com', 'password123', '1234567890', 0),
+    ('Jane', 'Smith', 'jane.smith@gmail.com', 'password123', '0987654321', 0);
 
-select * from Users
-select * from PlanGroup
-select * from PlanPlace
+-- Insert PlanGroup
+INSERT INTO PlanGroup (GroupName, UserId, IsPublished, GroupDescription, StartDate, EndDate)
+VALUES 
+    ('Family', 2, 0, 'The group of the family!', '2024-01-17', '2024-02-21'),
+    ('ADADAD', 2, 0, 'The group of the family!', '2024-01-17', '2024-02-21'),
+    ('OferFamily', 3, 1, 'The group of the family!', '2024-01-17', '2024-02-21'),
+    ('BibiGroup', 3, 1, 'The group of the family!', '2024-01-17', '2024-02-21'),
+    ('FriendsTrip', 4, 1, 'Trip with friends!', '2024-03-01', '2024-03-10'),
+    ('WorkRetreat', 5, 0, 'Work retreat for team building.', '2024-04-15', '2024-04-20');
+
+-- Insert Places
+INSERT INTO Places (PlaceId, PlacePicURL, PlaceName, CategoryId, PlaceDescription, Xcoor, Ycoor, GooglePlaceId)
+VALUES 
+    (1, 'https://i.natgeofe.com/n/15ec8dec-df7c-45af-a0ae-08d4e906a134/belvedere-castle.jpg?w=2880&h=2160', 'Central Park', 1, 'A large public park in New York City.', 40.785091, -73.968285, 'ChIJ4zGFAZpYwokRGUGph3Mf37k'),
+    (2, 'https://media.architecturaldigest.com/photos/66a951edce728792a48166e6/master/pass/GettyImages-955441104.jpg', 'Eiffel Tower', 2, 'A wrought-iron lattice tower in Paris, France.', 48.858844, 2.294351, 'ChIJA8Z0Y5Jv5kcRjQbNq0G7aAA');
+
+-- Insert PlanPlace
+INSERT INTO PlanPlace (PlaceId, PlanId, PlaceDate)
+VALUES 
+    (1, 1, '2024-03-02'),
+    (2, 2, '2024-04-16');
+
+-- Select data for verification
+SELECT * FROM Users;
+SELECT * FROM PlanGroup;
+SELECT * FROM PlanPlace;
+SELECT * FROM Places;
+
 
 
 -- Create a login for the admin user
