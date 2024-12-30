@@ -36,13 +36,14 @@ public partial class TripPlanDbContext : DbContext
         .ToList();
     }
 
-    public List<PlanPlace>? GetAllPlacesByEmailAndDate(string email, string dayDate, int planId)
+    public List<PlanPlace>? GetAllPlacesByEmailAndDateAndPlanId(string email, string dayDate, int planId)
     {
-        return this.PlanPlaces
+        /*return this.PlanPlaces
         .Where(pp => pp.PlanId == planId &&
                      pp.PlaceDate.HasValue &&
                      pp.PlaceDate.Value.ToString("MM/dd/yyyy") == dayDate &&
                      (pp.Plan.User.Email == email || pp.Plan.Users.Any(u => u.Email == email)))
-        .ToList();
+        .ToList();*/
+        return this.PlanPlaces.ToList();
     }
 }

@@ -130,7 +130,7 @@ VALUES
 -- Insert PlanPlace
 INSERT INTO PlanPlace (PlaceId, PlanId, PlaceDate)
 VALUES 
-    (1, 1, '2024-03-02'),
+    (1, 1, '2024-02-02'),
     (2, 2, '2024-04-16');
 
 -- Select data for verification

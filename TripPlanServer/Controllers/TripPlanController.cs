@@ -106,11 +106,13 @@ namespace TripPlanServer.Controllers
                     planPlaces = context.GetAllPlacesByEmail(email, planId);
                 }else
                 {
-                    planPlaces = context.GetAllPlacesByEmailAndDate(email, dayDate, planId);
+                    planPlaces = context.GetAllPlacesByEmailAndDateAndPlanId(email, dayDate, planId);
                 }
 
+                // Log the planPlaces object for debugging
+                Console.WriteLine($"planPlaces: {System.Text.Json.JsonSerializer.Serialize(planPlaces)}");
 
-                // Return the plannings
+                // Return the places
                 return Ok(planPlaces);
             }
             catch (Exception ex)
