@@ -109,8 +109,6 @@ namespace TripPlanServer.Controllers
                     planPlaces = context.GetAllPlacesByEmailAndDateAndPlanId(email, dayDate, planId);
                 }
 
-                // Log the planPlaces object for debugging
-                Console.WriteLine($"planPlaces: {System.Text.Json.JsonSerializer.Serialize(planPlaces)}");
 
                 // Return the places
                 return Ok(planPlaces);
