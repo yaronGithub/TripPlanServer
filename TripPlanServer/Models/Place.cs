@@ -12,7 +12,7 @@ public partial class Place
     public int PlaceId { get; set; }
 
     [Column("PlacePicURL")]
-    [StringLength(70)]
+    [StringLength(400)]
     public string PlacePicUrl { get; set; } = null!;
 
     [StringLength(50)]

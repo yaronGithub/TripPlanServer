@@ -73,7 +73,7 @@ create table PlanPlace
 (
 PlaceId int foreign key References Places(PlaceId),
 PlanId int foreign key References PlanGroup(PlanId),
-PlaceDate Date,
+PlaceDate DateTime,
 CONSTRAINT PK_PlanPlace PRIMARY KEY (PlanId,PlaceId)
 
 )
@@ -130,8 +130,9 @@ VALUES
 -- Insert PlanPlace
 INSERT INTO PlanPlace (PlaceId, PlanId, PlaceDate)
 VALUES 
-    (1, 1, '2024-02-02'),
-    (2, 2, '2024-04-16');
+    (1, 1, '2024-02-02T10:00:00'),
+    (2, 1, '2024-02-05T21:54:00'),
+    (2, 2, '2024-04-16T15:30:00');
 
 -- Select data for verification
 SELECT * FROM Users;

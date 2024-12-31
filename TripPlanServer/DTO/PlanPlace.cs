@@ -10,7 +10,7 @@ namespace TripPlanServer.DTO
 
         public int PlanId { get; set; }
 
-        public DateOnly? PlaceDate { get; set; }
+        public DateTime? PlaceDate { get; set; }
 
         public virtual ICollection<Picture> Pictures { get; set; } = new List<Picture>();
 

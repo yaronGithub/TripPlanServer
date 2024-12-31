@@ -53,7 +53,10 @@ public partial class TripPlanDbContext : DbContext
             //planPlace.Plan = this.PlanGroups.FirstOrDefault(pg => pg.PlanId == planPlace.PlanId);
             //planPlace.Place = this.Places.FirstOrDefault(p => p.PlaceId == planPlace.PlaceId);
             planPlace.Plan = new PlanGroup();
-            planPlace.Place = new Place();
+            planPlace.Place = new Place()
+            {
+                PlaceName = this.Places.FirstOrDefault(p => p.PlaceId == planPlace.PlaceId).PlaceName
+            };
 
             if (planPlace.Plan == null || planPlace.Place == null)
             {
