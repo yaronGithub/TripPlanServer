@@ -16,7 +16,7 @@ namespace TripPlanServer.DTO
 
         public virtual Place Place { get; set; } = null!;
 
-        public virtual PlanGroup Plan { get; set; } = null!;
+        //public virtual PlanGroup Plan { get; set; } = null!;
 
         public PlanPlace(Models.PlanPlace planPlace) 
         {
@@ -43,7 +43,7 @@ namespace TripPlanServer.DTO
                 //Pictures = planPlace.Place.Pictures,
                 //PlanPlaces = planPlace.Place.PlanPlaces
             };
-            this.Plan = new PlanGroup(planPlace.Plan);
+            //this.Plan = new PlanGroup(planPlace.Plan);
         }
     }
 }

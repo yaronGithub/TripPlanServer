@@ -17,7 +17,7 @@ namespace TripPlanServer.DTO
 
         public virtual Category? Category { get; set; }
         public virtual ICollection<Picture> Pictures { get; set; } = new List<Picture>();
-        public virtual ICollection<PlanPlace> PlanPlaces { get; set; } = new List<PlanPlace>();
+        //public virtual ICollection<PlanPlace> PlanPlaces { get; set; } = new List<PlanPlace>();
 
         public Place() { }
         public Place(Models.Place place)
@@ -31,7 +31,7 @@ namespace TripPlanServer.DTO
             this.Ycoor = place.Ycoor;
             //this.Category = place.Category;
             this.Pictures = (ICollection<Picture>)place.Pictures;
-            this.PlanPlaces = (ICollection<PlanPlace>)place.PlanPlaces;
+            //this.PlanPlaces = (ICollection<PlanPlace>)place.PlanPlaces;
         }
     }
 }

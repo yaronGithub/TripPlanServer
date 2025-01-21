@@ -63,16 +63,6 @@ namespace TripPlanServer.Controllers
                         PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
                         Xcoor = planPlaceDto.Place.Xcoor,
                         Ycoor = planPlaceDto.Place.Ycoor
-                    },
-                    Plan = new PlanGroup()
-                    {
-                        EndDate = planPlaceDto.Plan.EndDate,
-                        GroupDescription = planPlaceDto.Plan.GroupDescription,
-                        GroupName = planPlaceDto.Plan.GroupName,
-                        IsPublished = planPlaceDto.Plan.IsPublished,
-                        PlanId = planPlaceDto.Plan.PlanId,
-                        StartDate = planPlaceDto.Plan.StartDate,
-                        Pictures = new List<Picture>(),
                     }
                 };
 
@@ -89,7 +79,7 @@ namespace TripPlanServer.Controllers
         }
 
         [HttpGet("getAllPlaces")]
-        public IActionResult GetAllPlaces([FromQuery] string email, [FromQuery] string dayDate, [FromQuery] int planId)
+        public IActionResult GetAllPlaces([FromQuery] string dayDate, [FromQuery] int planId)
         {
             try
             {
@@ -103,15 +93,24 @@ namespace TripPlanServer.Controllers
                 List<PlanPlace>? planPlaces;
                 if (dayDate == "all")
                 {
-                    planPlaces = context.GetAllPlacesByEmail(email, planId);
+                    planPlaces = context.GetAllPlacesByEmail(userEmail, planId);
                 }else
                 {
-                    planPlaces = context.GetAllPlacesByEmailAndDateAndPlanId(email, dayDate, planId);
+                    planPlaces = context.GetAllPlacesByEmailAndDateAndPlanId(dayDate, planId);
                 }
 
+                if (planPlaces == null)
+                {
+                    return NotFound("No places found for the given date and plan id");
+                }
 
+                List<DTO.PlanPlace> output = new List<DTO.PlanPlace>();
+                foreach (PlanPlace p in planPlaces)
+                {
+                    output.Add(new DTO.PlanPlace(p));
+                }
                 // Return the places
-                return Ok(planPlaces);
+                return Ok(output);
             }
             catch (Exception ex)
             {
