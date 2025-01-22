@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TripPlanServer.Models;
 
-[Index("Email", Name = "UQ__Users__A9D10534F61061C0", IsUnique = true)]
+[Index("Email", Name = "UQ__Users__A9D10534F6E6E649", IsUnique = true)]
 public partial class User
 {
     [Key]

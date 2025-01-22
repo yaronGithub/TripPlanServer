@@ -27,8 +27,8 @@ namespace TripPlanServer.DTO
             this.PlaceName = place.PlaceName;
             this.CategoryId = place.CategoryId;
             this.PlaceDescription = place.PlaceDescription;
-            this.Xcoor = place.Xcoor;
-            this.Ycoor = place.Ycoor;
+            this.Xcoor = place.Xcoor ?? 0.0;
+            this.Ycoor = place.Ycoor ?? 0.0;
             //this.Category = place.Category;
             this.Pictures = (ICollection<Picture>)place.Pictures;
             //this.PlanPlaces = (ICollection<PlanPlace>)place.PlanPlaces;

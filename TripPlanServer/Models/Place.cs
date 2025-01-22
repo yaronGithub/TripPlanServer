@@ -20,7 +20,7 @@ public partial class Place
 
     public int? CategoryId { get; set; }
 
-    [StringLength(100)]
+    [StringLength(300)]
     public string PlaceDescription { get; set; } = null!;
 
     public double? Xcoor { get; set; }

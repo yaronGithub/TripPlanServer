@@ -37,8 +37,8 @@ namespace TripPlanServer.DTO
                 .Place
                     .CategoryId,
                 PlaceDescription = planPlace.Place.PlaceDescription,
-                Xcoor = planPlace.Place.Xcoor,
-                Ycoor = planPlace.Place.Ycoor,
+                Xcoor = planPlace.Place.Xcoor ?? 0.0,
+                Ycoor = planPlace.Place.Ycoor ?? 0.0,
                 GooglePlaceId = planPlace.Place.GooglePlaceId,
                 //Pictures = planPlace.Place.Pictures,
                 //PlanPlaces = planPlace.Place.PlanPlaces
