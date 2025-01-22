@@ -141,7 +141,7 @@ SELECT * FROM PlanPlace;
 SELECT * FROM Places;
 
 
-
+SELECT * FROM Categories
 -- Create a login for the admin user
 
 CREATE LOGIN [TripPlanAdminLogin] WITH PASSWORD =
