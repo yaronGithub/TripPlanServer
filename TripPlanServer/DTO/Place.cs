@@ -11,8 +11,8 @@ namespace TripPlanServer.DTO
         public string PlaceName { get; set; } = null!;
         public int? CategoryId { get; set; }
         public string PlaceDescription { get; set; } = null!;
-        public double? Xcoor { get; set; }
-        public double? Ycoor { get; set; }
+        public double Xcoor { get; set; }
+        public double Ycoor { get; set; }
         public string? GooglePlaceId { get; set; }
 
         public virtual Category? Category { get; set; }
