@@ -49,7 +49,7 @@ namespace TripPlanServer.Controllers
 
                 Models.PlanPlace planPlace = new PlanPlace()
                 {
-                    PlaceId = planPlaceDto.PlaceId,
+                    PlaceId = this.context.GetFreePlaceId(),
                     PlanId = planPlaceDto.PlanId,
                     PlaceDate = planPlaceDto.PlaceDate,
                     Pictures = new List<Picture>(),
@@ -58,11 +58,17 @@ namespace TripPlanServer.Controllers
                         CategoryId = planPlaceDto.Place.CategoryId,
                         GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
                         PlaceDescription = planPlaceDto.Place.PlaceDescription,
-                        PlaceId = planPlaceDto.Place.PlaceId,
+                        PlaceId = this.context.GetFreePlaceId(),
                         PlaceName = planPlaceDto.Place.PlaceName,
                         PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
                         Xcoor = planPlaceDto.Place.Xcoor,
-                        Ycoor = planPlaceDto.Place.Ycoor
+                        Ycoor = planPlaceDto.Place.Ycoor,
+                        Category = new Category()
+                        {
+                            CategoryId = planPlaceDto.Place.Category.CategoryId,
+                            CategoryName = planPlaceDto.Place.Category.CategoryName
+                        },
+                        Pictures = new List<Picture>()
                     }
                 };
 

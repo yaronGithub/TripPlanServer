@@ -28,6 +28,10 @@ public partial class TripPlanDbContext : DbContext
         return this.PlanGroups.Count()+1;
     }
 
+    public int GetFreePlaceId()
+    {
+        return this.Places.Count() + 1;
+    }
 
     public List<PlanPlace>? GetAllPlacesByEmail(string email, int planId)
     {
