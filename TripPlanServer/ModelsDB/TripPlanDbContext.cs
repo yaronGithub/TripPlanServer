@@ -25,7 +25,7 @@ public partial class TripPlanDbContext : DbContext
 
     public int GetFreePlanId()
     {
-        return this.PlanGroups.Count()+1;
+        return this.PlanGroups.Count() + 1;
     }
 
     public int GetFreePlaceId()

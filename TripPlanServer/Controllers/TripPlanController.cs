@@ -49,7 +49,7 @@ namespace TripPlanServer.Controllers
 
                 Models.PlanPlace planPlace = new PlanPlace()
                 {
-                    PlaceId = this.context.GetFreePlaceId(),
+                    PlaceId = planPlaceDto.PlaceId,
                     PlanId = planPlaceDto.PlanId,
                     PlaceDate = planPlaceDto.PlaceDate,
                     Pictures = new List<Picture>(),
@@ -58,17 +58,12 @@ namespace TripPlanServer.Controllers
                         CategoryId = planPlaceDto.Place.CategoryId,
                         GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
                         PlaceDescription = planPlaceDto.Place.PlaceDescription,
-                        PlaceId = this.context.GetFreePlaceId(),
+                        PlaceId = planPlaceDto.PlaceId,
                         PlaceName = planPlaceDto.Place.PlaceName,
                         PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
                         Xcoor = planPlaceDto.Place.Xcoor,
                         Ycoor = planPlaceDto.Place.Ycoor,
-                        Category = new Category()
-                        {
-                            CategoryId = planPlaceDto.Place.Category.CategoryId,
-                            CategoryName = planPlaceDto.Place.Category.CategoryName
-                        },
-                        Pictures = new List<Picture>()
+                        //Pictures = new List<Picture>()
                     }
                 };
 
@@ -78,10 +73,24 @@ namespace TripPlanServer.Controllers
                 //Plan Place was added!
                 return Ok(new DTO.PlanPlace(planPlace));
             }
+            catch (DbUpdateException dbEx)
+            {
+                // Log the database update exception
+                // You can use a logging framework like Serilog, NLog, etc.
+                // For simplicity, we use Console.WriteLine here
+                Console.WriteLine($"Database update error: {dbEx.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database update error");
+            }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                // Log the general exception
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while adding the place");
             }
+            //catch (Exception ex)
+            //{
+            //    return BadRequest(ex.Message);
+            //}
         }
 
         [HttpGet("getAllPlaces")]
