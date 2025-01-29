@@ -18,6 +18,8 @@ namespace TripPlanServer.DTO
 
         //public virtual PlanGroup Plan { get; set; } = null!;
 
+        public PlanPlace () { }
+
         public PlanPlace(Models.PlanPlace planPlace) 
         {
             this.PlaceId = planPlace.PlaceId;

@@ -42,14 +42,14 @@ namespace TripPlanServer.Controllers
 
                 //Check if the user that is logged in is the same user of the planning
                 //this situation is ok only if the user is a manager
-                if (user == null || (user.IsManager == false /*&& userPlanDto.UserId != user.UserId*/))
+                if (user == null /*|| (user.IsManager == false && userPlanDto.UserId != user.UserId)*/)
                 {
-                    return Unauthorized("Non Manager User is trying to add a task for a different user");
+                    return Unauthorized("Non Manager User is trying to add a plan for a different user");
                 }
 
                 Models.PlanPlace planPlace = new PlanPlace()
                 {
-                    PlaceId = planPlaceDto.PlaceId,
+                    PlaceId = this.context.GetFreePlaceId(),
                     PlanId = planPlaceDto.PlanId,
                     PlaceDate = planPlaceDto.PlaceDate,
                     Pictures = new List<Picture>(),
@@ -58,7 +58,7 @@ namespace TripPlanServer.Controllers
                         CategoryId = planPlaceDto.Place.CategoryId,
                         GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
                         PlaceDescription = planPlaceDto.Place.PlaceDescription,
-                        PlaceId = planPlaceDto.PlaceId,
+                        PlaceId = this.context.GetFreePlaceId(),
                         PlaceName = planPlaceDto.Place.PlaceName,
                         PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
                         Xcoor = planPlaceDto.Place.Xcoor,
