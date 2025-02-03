@@ -4,6 +4,7 @@ using TripPlanServer.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Numerics;
 
 
 namespace TripPlanServer.Controllers
@@ -47,13 +48,9 @@ namespace TripPlanServer.Controllers
                     return Unauthorized("Non Manager User is trying to add a plan for a different user");
                 }
 
-                Models.PlanPlace planPlace = new PlanPlace()
+                if (planPlaceDto.Place != null)
                 {
-                    PlaceId = this.context.GetFreePlaceId(),
-                    PlanId = planPlaceDto.PlanId,
-                    PlaceDate = planPlaceDto.PlaceDate,
-                    Pictures = new List<Picture>(),
-                    Place = new Place()
+                    Models.Place p = new Place()
                     {
                         CategoryId = planPlaceDto.Place.CategoryId,
                         GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
@@ -64,14 +61,27 @@ namespace TripPlanServer.Controllers
                         Xcoor = planPlaceDto.Place.Xcoor,
                         Ycoor = planPlaceDto.Place.Ycoor,
                         //Pictures = new List<Picture>()
-                    }
-                };
+                    };
+                    context.Add(p);
+                    context.SaveChanges();
 
-                context.Entry(planPlace).State = EntityState.Added;
-                context.SaveChanges();
+                    Models.PlanPlace planPlace = new PlanPlace()
+                    {
+                        PlaceId = this.context.GetFreePlaceId(),
+                        PlanId = planPlaceDto.PlanId,
+                        PlaceDate = planPlaceDto.PlaceDate,
+                        Pictures = new List<Picture>(),
+                        Place = p,
+                    };
 
-                //Plan Place was added!
-                return Ok(new DTO.PlanPlace(planPlace));
+                    context.Entry(planPlace).State = EntityState.Added;
+                    context.SaveChanges();
+
+                    //Plan Place was added!
+                    return Ok(new DTO.PlanPlace(planPlace));
+                }
+
+                return Ok("Place was not added.");
             }
             catch (DbUpdateException dbEx)
             {
