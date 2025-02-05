@@ -38,6 +38,7 @@ public partial class TripPlanDbContext : DbContext
         return this.PlanPlaces
         .Where(pp => pp.PlanId == planId &&
                      (pp.Plan.User != null && pp.Plan.User.Email == email || pp.Plan.Users.Any(u => u.Email == email)))
+        .Include(pp => pp.Place)
         .ToList();
     }
 

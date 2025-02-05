@@ -124,7 +124,7 @@ namespace TripPlanServer.Controllers
                     planPlaces = context.GetAllPlacesByEmailAndDateAndPlanId(dayDate, planId);
                 }
 
-                if (planPlaces == null)
+                if (planPlaces == null || planPlaces.Count == 0)
                 {
                     return NotFound("No places found for the given date and plan id");
                 }
