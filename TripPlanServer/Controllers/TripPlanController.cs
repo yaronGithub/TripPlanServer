@@ -134,6 +134,10 @@ namespace TripPlanServer.Controllers
                 {
                     output.Add(new DTO.PlanPlace(p));
                 }
+                if (output == null || output.Count == 0)
+                {
+                    return Ok(null);
+                }
                 // Return the places
                 return Ok(output);
             }
