@@ -162,7 +162,18 @@ SELECT * FROM PlanPlace;
 SELECT * FROM Places;
 
 
-SELECT * FROM Categories
+-- Add users to the PlanGroup 'ADADAD'
+INSERT INTO UserGroup (PlanId, UserId)
+VALUES 
+    (2, 1), -- Adding user with UserId 1
+    (2, 2), -- Adding user with UserId 2
+    (2, 3), -- Adding user with UserId 3
+    (2, 4), -- Adding user with UserId 4
+    (2, 5); -- Adding user with UserId 5
+
+-- Verify the insertion
+SELECT * FROM UserGroup WHERE PlanId = 2;
+
 -- Create a login for the admin user
 
 CREATE LOGIN [TripPlanAdminLogin] WITH PASSWORD =

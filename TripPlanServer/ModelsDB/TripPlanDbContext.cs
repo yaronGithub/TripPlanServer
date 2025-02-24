@@ -15,12 +15,15 @@ public partial class TripPlanDbContext : DbContext
 
     public List<PlanGroup>? GetAllPlanningsByEmail(string email)
     {
-        return this.PlanGroups.Where(pg => pg.Users.Any(u => u.Email == email) || email == pg.User.Email).ToList();
+        return this.PlanGroups
+                       .Where(pg => pg.Users.Any(u => u.Email == email) || email == pg.User.Email)
+                       .Include(pg => pg.Users) // Include the Users collection
+                       .ToList();
     }
 
     public List<PlanGroup>? GetAllPublishedPlannings()
     {
-        return this.PlanGroups.Where(pg => pg.IsPublished == true).ToList();
+        return this.PlanGroups.Where(pg => pg.IsPublished == true).Include(pg => pg.Reviews).ToList();
     }
 
     public int GetFreePlanId()
