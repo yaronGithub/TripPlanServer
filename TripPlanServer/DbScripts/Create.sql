@@ -165,9 +165,6 @@ SELECT * FROM Places;
 -- Add users to the PlanGroup 'ADADAD'
 INSERT INTO UserGroup (PlanId, UserId)
 VALUES 
-    (2, 1), -- Adding user with UserId 1
-    (2, 2), -- Adding user with UserId 2
-    (2, 3), -- Adding user with UserId 3
     (2, 4), -- Adding user with UserId 4
     (2, 5); -- Adding user with UserId 5
 

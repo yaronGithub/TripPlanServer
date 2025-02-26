@@ -24,6 +24,31 @@ namespace TripPlanServer.Controllers
             this.webHostEnvironment = env;
         }
 
+        [HttpGet("getUser")]
+        public IActionResult GetUser([FromQuery] string email)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User user = context.GetUser(email);
+                DTO.User result = new DTO.User(user);
+
+                
+                // Return the user
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("addPlace")]
         public IActionResult AddPlace([FromBody] DTO.PlanPlace planPlaceDto)
         {
@@ -168,17 +193,23 @@ namespace TripPlanServer.Controllers
                 {
                     planGroups = context.GetAllPlanningsByEmail(email);
                 }
-                
+
+                List<DTO.PlanGroup> result = new List<DTO.PlanGroup>();
+                if (planGroups != null)
+                    foreach(PlanGroup p in planGroups)
+                    {
+                        result.Add(new DTO.PlanGroup(p));
+                    }
 
                 // Return the plannings
-                return Ok(planGroups);
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
+        
 
         [HttpPost("addPlanning")]
         public IActionResult AddPlanning([FromBody] DTO.PlanGroup userPlanDto)
@@ -270,7 +301,7 @@ namespace TripPlanServer.Controllers
                     //Reviews = (ICollection<Review>)userPlanDto.Reviews,
                     //User = userPlanDto.User,
                     //Users = (ICollection<User>)userPlanDto.Users,
-                    //UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
+                    UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
                     PlanId = userPlanDto.PlanId
                 };
 
