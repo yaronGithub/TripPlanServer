@@ -60,7 +60,7 @@ CategoryName nvarchar(50) not null,
 create table Places
 (
 PlaceId int primary key,
-PlacePicURL nvarchar(400) not null,
+PlacePicURL nvarchar(1000) not null,
 PlaceName nvarchar(50) not null,
 CategoryId int foreign key References Categories(CategoryId),
 PlaceDescription nvarchar(300) not null,
