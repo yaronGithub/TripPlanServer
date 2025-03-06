@@ -36,6 +36,37 @@ public partial class TripPlanDbContext : DbContext
         return this.Places.Count() + 1;
     }
 
+    public Place? GetGooglePlaceById(string googlePlaceId)
+    {
+        return this.Places.Where(p => p.GooglePlaceId == googlePlaceId).FirstOrDefault();
+    }
+
+    public bool PlaceExists(string googlePlaceId)
+    {
+        return this.Places.Any(p => p.GooglePlaceId == googlePlaceId);
+    }
+
+    public PlanPlace ChangePlanPlace(int placeId, Place place)
+    {
+        // Retrieve the PlanPlace by placeId
+        var planPlace = this.PlanPlaces.Include(pp => pp.Place).FirstOrDefault(pp => pp.PlaceId == placeId);
+
+        if (planPlace == null)
+        {
+            // If no PlanPlace is found, return null or handle accordingly
+            return null;
+        }
+
+        // Update the Place property of the PlanPlace
+        planPlace.Place = place;
+
+        // Save changes to the database
+        this.SaveChanges();
+
+        // Return the updated PlanPlace
+        return planPlace;
+    }
+
     public List<PlanPlace>? GetAllPlacesByEmail(string email, int planId)
     {
         return this.PlanPlaces

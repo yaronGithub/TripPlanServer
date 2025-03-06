@@ -106,7 +106,7 @@ INSERT INTO Categories (CategoryName) VALUES ('Parks'), ('Landmarks'); -- [ADDED
 INSERT INTO Users (FirstName, LastName, Email, Passwd, PhoneNumber, IsManager)
 VALUES 
     ('admin', 'Traitel', 'admin@gmail.com', '1234a', '0559394845', 1),
-    ('Yaron', 'Traitel', 'yaron@gmail.com', '1234a', '0559394844', 0),
+    ('Yaron', 'Traitel', 'yaron.traitel@gmail.com', '1234a', '0559394844', 0),
     ('Yosef', 'Benzo', 'yosef@gmail.com', '1234a', '0559698849', 0),
     ('John', 'Doe', 'john.doe@gmail.com', 'password123', '1234567890', 0),
     ('Jane', 'Smith', 'jane.smith@gmail.com', 'password123', '0987654321', 0);

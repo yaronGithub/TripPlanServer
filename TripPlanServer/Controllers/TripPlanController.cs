@@ -102,7 +102,7 @@ namespace TripPlanServer.Controllers
                     context.Entry(planPlace).State = EntityState.Added;
                     context.SaveChanges();
 
-                    //Plan Place was added!
+                    //Plan Place was updated!
                     return Ok(new DTO.PlanPlace(planPlace));
                 }
 
@@ -127,6 +127,91 @@ namespace TripPlanServer.Controllers
             //    return BadRequest(ex.Message);
             //}
         }
+
+
+        [HttpPost("updatePlace")]
+        public IActionResult UpdatePlace([FromBody] DTO.PlanPlace planPlaceDto)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                //Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userEmail);
+                //Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+                //Check if the user that is logged in is the same user of the task
+                //this situation is ok only if the user is a manager
+                if (user == null/* || (user.IsManager == false && userPlanDto.UserId != user.UserId)*/)
+                {
+                    return Unauthorized("Non Manager User is trying to update a plan for a different user");
+                }
+
+
+                Models.PlanPlace planPlace;
+                if (!context.PlaceExists(planPlaceDto.Place.GooglePlaceId))
+                {
+                    Models.Place p = new Place()
+                    {
+                        CategoryId = planPlaceDto.Place.CategoryId,
+                        GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
+                        PlaceDescription = planPlaceDto.Place.PlaceDescription,
+                        PlaceId = this.context.GetFreePlaceId(),
+                        PlaceName = planPlaceDto.Place.PlaceName,
+                        PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
+                        Xcoor = planPlaceDto.Place.Xcoor,
+                        Ycoor = planPlaceDto.Place.Ycoor,
+                        //Pictures = new List<Picture>()
+                    };
+                    context.Add(p);
+                    context.SaveChanges();
+
+                    planPlace = context.ChangePlanPlace(planPlaceDto.PlaceId, p);
+
+                    context.Entry(planPlace).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    planPlace = new PlanPlace()
+                    {
+                        PlaceId = planPlaceDto.PlaceId,
+                        PlanId = planPlaceDto.PlanId,
+                        PlaceDate = planPlaceDto.PlaceDate,
+                        Place = new Place()
+                        {
+                            CategoryId = planPlaceDto.Place.CategoryId,
+                            GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
+                            PlaceDescription = planPlaceDto.Place.PlaceDescription,
+                            PlaceId = planPlaceDto.PlaceId,
+                            PlaceName = planPlaceDto.Place.PlaceName,
+                            PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
+                            Xcoor = planPlaceDto.Place.Xcoor,
+                            Ycoor = planPlaceDto.Place.Ycoor,
+                            //Pictures = new List<Picture>()
+                        },
+                    };
+
+                    context.Entry(planPlace).State = EntityState.Modified;
+
+                    context.SaveChanges();
+                }
+
+                //Plan was updated!
+                return Ok(new DTO.PlanPlace(planPlace));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
 
         [HttpGet("getAllPlaces")]
         public IActionResult GetAllPlaces([FromQuery] string dayDate, [FromQuery] int planId)
@@ -301,7 +386,21 @@ namespace TripPlanServer.Controllers
                     //Reviews = (ICollection<Review>)userPlanDto.Reviews,
                     //User = userPlanDto.User,
                     //Users = (ICollection<User>)userPlanDto.Users,
-                    UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
+                    //UsersNavigation = (ICollection<User>)userPlanDto.UsersNavigation,
+                    UsersNavigation = userPlanDto.UsersNavigation
+                        .Select(dtoUser => new Models.User
+                        {
+                            // Map properties from DTO.User to Models.User
+                            UserId = dtoUser.UserId,
+                            FirstName = dtoUser.FirstName,
+                            LastName = dtoUser.LastName,
+                            Email = dtoUser.Email,
+                            Passwd = dtoUser.Passwd,
+                            PhoneNumber = dtoUser.PhoneNumber,
+                            IsManager = dtoUser.IsManager,
+                            PicId = dtoUser.PicId,
+                            // Add other properties as needed
+                        }).ToList(),
                     PlanId = userPlanDto.PlanId
                 };
 
