@@ -1,5 +1,6 @@
 using TripPlanServer.Models;
 using Microsoft.EntityFrameworkCore;
+using TripPlanServer.Hubs;
 namespace TriplanServer
 {
     public class Program
@@ -11,6 +12,7 @@ namespace TriplanServer
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddSignalR();
 
             #region Add Database context to Dependency Injection
             //Read connection string from app settings.json
@@ -59,6 +61,7 @@ namespace TriplanServer
             app.UseHttpsRedirection();
             app.UseStaticFiles(); //Support static files delivery from wwwroot folder
             app.MapControllers(); //Map all controllers classes
+            app.MapHub<ChatHub>("/chatHub"); //Map the chatHub to the /chatHub URL
 
             // Configure the application to listen on all network interfaces
             // Also note the changes in launchSettings.json
