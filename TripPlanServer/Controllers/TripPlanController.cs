@@ -49,6 +49,51 @@ namespace TripPlanServer.Controllers
             }
         }
 
+        [HttpDelete("deletePlanPlace")]
+        public IActionResult DeletePlanPlace([FromQuery] int placeId)
+        {
+            try
+            {
+                // Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                // Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userEmail);
+                // Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                // Check if the user that is logged in is the same user of the task
+                // this situation is ok only if the user is a manager
+                if (user == null /* || (user.IsManager == false && userPlanDto.UserId != user.UserId)*/)
+                {
+                    return Unauthorized("Non Manager User is trying to delete a plan for a different user");
+                }
+
+                Models.PlanPlace? existingPlanPlace = context.PlanPlaces
+                    .FirstOrDefault(pp => pp.PlaceId == placeId);
+
+                if (existingPlanPlace == null)
+                {
+                    return NotFound("PlanPlace not found");
+                }
+
+                // Delete the PlanPlace
+                context.PlanPlaces.Remove(existingPlanPlace);
+                context.SaveChanges();
+
+                // PlanPlace was deleted!
+                return Ok("PlanPlace was deleted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("addPlace")]
         public IActionResult AddPlace([FromBody] DTO.PlanPlace planPlaceDto)
         {
@@ -134,29 +179,35 @@ namespace TripPlanServer.Controllers
         {
             try
             {
-                //Check if who is logged in
+                // Check if who is logged in
                 string? userEmail = HttpContext.Session.GetString("loggedInUser");
                 if (string.IsNullOrEmpty(userEmail))
                 {
                     return Unauthorized("User is not logged in");
                 }
 
-                //Get model user class from DB with matching email. 
+                // Get model user class from DB with matching email. 
                 Models.User? user = context.GetUser(userEmail);
-                //Clear the tracking of all objects to avoid double tracking
+                // Clear the tracking of all objects to avoid double tracking
                 context.ChangeTracker.Clear();
-                //Check if the user that is logged in is the same user of the task
-                //this situation is ok only if the user is a manager
+                // Check if the user that is logged in is the same user of the task
+                // this situation is ok only if the user is a manager
                 if (user == null/* || (user.IsManager == false && userPlanDto.UserId != user.UserId)*/)
                 {
                     return Unauthorized("Non Manager User is trying to update a plan for a different user");
                 }
 
+                Models.PlanPlace? existingPlanPlace = context.PlanPlaces
+                    .FirstOrDefault(pp => pp.PlaceId == planPlaceDto.PlaceId && pp.PlanId == planPlaceDto.PlanId);
 
-                Models.PlanPlace planPlace;
+                if (existingPlanPlace == null)
+                {
+                    return NotFound("PlanPlace not found");
+                }
+
                 if (!context.PlaceExists(planPlaceDto.Place.GooglePlaceId))
                 {
-                    Models.Place p = new Place()
+                    Models.Place newPlace = new Place()
                     {
                         CategoryId = planPlaceDto.Place.CategoryId,
                         GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
@@ -166,44 +217,42 @@ namespace TripPlanServer.Controllers
                         PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
                         Xcoor = planPlaceDto.Place.Xcoor,
                         Ycoor = planPlaceDto.Place.Ycoor,
-                        //Pictures = new List<Picture>()
+                        // Pictures = new List<Picture>()
                     };
-                    context.Add(p);
+                    context.Add(newPlace);
                     context.SaveChanges();
 
-                    planPlace = context.ChangePlanPlace(planPlaceDto.PlaceId, p);
-
-                    context.Entry(planPlace).State = EntityState.Modified;
+                    // Delete the existing PlanPlace
+                    context.PlanPlaces.Remove(existingPlanPlace);
                     context.SaveChanges();
+
+                    // Create a new PlanPlace with the new Place
+                    Models.PlanPlace newPlanPlace = new PlanPlace()
+                    {
+                        PlaceId = newPlace.PlaceId,
+                        PlanId = planPlaceDto.PlanId,
+                        PlaceDate = planPlaceDto.PlaceDate,
+                        Place = newPlace,
+                        Pictures = existingPlanPlace.Pictures
+                    };
+
+                    context.PlanPlaces.Add(newPlanPlace);
+                    context.SaveChanges();
+
+                    // Plan was updated!
+                    return Ok(new DTO.PlanPlace(newPlanPlace));
                 }
                 else
                 {
-                    planPlace = new PlanPlace()
-                    {
-                        PlaceId = planPlaceDto.PlaceId,
-                        PlanId = planPlaceDto.PlanId,
-                        PlaceDate = planPlaceDto.PlaceDate,
-                        Place = new Place()
-                        {
-                            CategoryId = planPlaceDto.Place.CategoryId,
-                            GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
-                            PlaceDescription = planPlaceDto.Place.PlaceDescription,
-                            PlaceId = planPlaceDto.PlaceId,
-                            PlaceName = planPlaceDto.Place.PlaceName,
-                            PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
-                            Xcoor = planPlaceDto.Place.Xcoor,
-                            Ycoor = planPlaceDto.Place.Ycoor,
-                            //Pictures = new List<Picture>()
-                        },
-                    };
+                    existingPlanPlace.Place = context.GetGooglePlaceById(planPlaceDto.Place.GooglePlaceId);
+                    existingPlanPlace.PlaceDate = planPlaceDto.PlaceDate;
 
-                    context.Entry(planPlace).State = EntityState.Modified;
-
+                    context.Entry(existingPlanPlace).State = EntityState.Modified;
                     context.SaveChanges();
-                }
 
-                //Plan was updated!
-                return Ok(new DTO.PlanPlace(planPlace));
+                    // Plan was updated!
+                    return Ok(new DTO.PlanPlace(existingPlanPlace));
+                }
             }
             catch (Exception ex)
             {
@@ -294,7 +343,68 @@ namespace TripPlanServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
+
+        [HttpDelete("deletePlan")]
+        public IActionResult DeletePlan([FromQuery] int planId)
+        {
+            try
+            {
+                // Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                // Get model user class from DB with matching email. 
+                Models.User? user = context.GetUser(userEmail);
+                // Clear the tracking of all objects to avoid double tracking
+                context.ChangeTracker.Clear();
+
+                // Check if the user that is logged in is the same user of the task
+                // this situation is ok only if the user is a manager
+                if (user == null /* || (user.IsManager == false && userPlanDto.UserId != user.UserId)*/)
+                {
+                    return Unauthorized("Non Manager User is trying to delete a plan for a different user");
+                }
+
+                Models.PlanGroup? existingPlanGroup = context.PlanGroups
+                    .Include(pg => pg.PlanPlaces)
+                    .ThenInclude(pp => pp.Pictures)
+                    .Include(pg => pg.Pictures)
+                    .Include(pg => pg.Reviews)
+                    .FirstOrDefault(pg => pg.PlanId == planId);
+
+                if (existingPlanGroup == null)
+                {
+                    return NotFound("PlanGroup not found");
+                }
+
+                // Delete related PlanPlaces and their Pictures
+                foreach (var planPlace in existingPlanGroup.PlanPlaces)
+                {
+                    context.Pictures.RemoveRange(planPlace.Pictures);
+                    context.PlanPlaces.Remove(planPlace);
+                }
+
+                // Delete related Pictures and Reviews
+                context.Pictures.RemoveRange(existingPlanGroup.Pictures);
+                context.Reviews.RemoveRange(existingPlanGroup.Reviews);
+
+                // Delete the PlanGroup
+                context.PlanGroups.Remove(existingPlanGroup);
+                context.SaveChanges();
+
+                // PlanGroup was deleted!
+                return Ok("PlanGroup was deleted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpPost("addPlanning")]
         public IActionResult AddPlanning([FromBody] DTO.PlanGroup userPlanDto)
