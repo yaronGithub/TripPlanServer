@@ -171,6 +171,13 @@ VALUES
 -- Verify the insertion
 SELECT * FROM UserGroup WHERE PlanId = 2;
 
+-- Insert Reviews for BibiGroup
+INSERT INTO Reviews (Title, PlanId, UserId, Stars, ReviewText, ReviewDate)
+VALUES 
+    ('Amazing Trip!', 4, 3, 5, 'This was an amazing trip with the family. Highly recommend!', '2024-02-22'),
+    ('Good Experience', 4, 4, 4, 'Had a good time, but some places were too crowded.', '2024-02-23'),
+    ('Not Bad', 4, 5, 3, 'The trip was okay, but could have been better organized.', '2024-02-24');
+
 -- Create a login for the admin user
 
 CREATE LOGIN [TripPlanAdminLogin] WITH PASSWORD =

@@ -368,7 +368,7 @@ namespace TripPlanServer.Controllers
                 context.ChangeTracker.Clear();
                 //Check if the user that is logged in is the same user of the task
                 //this situation is ok only if the user is a manager
-                if (user == null || (user.IsManager == false && userPlanDto.UserId != user.UserId))
+                if (user == null/* || (user.IsManager == false && userPlanDto.UserId != user.UserId)*/)
                 {
                     return Unauthorized("Non Manager User is trying to update a plan for a different user");
                 }
@@ -417,7 +417,10 @@ namespace TripPlanServer.Controllers
                         {
                             PlanId = plan.PlanId,
                             ReviewDate = review.ReviewDate,
-                            ReviewText = review.ReviewText
+                            ReviewText = review.ReviewText,
+                            Title = review.Title,
+                            Stars = review.Stars,
+                            UserId = review.UserId
                         };
 
                         context.Entry(newPlanReview).State = EntityState.Added;
@@ -430,7 +433,10 @@ namespace TripPlanServer.Controllers
                             PlanId = plan.PlanId,
                             ReviewId = review.ReviewId,
                             ReviewDate = review.ReviewDate,
-                            ReviewText = review.ReviewText
+                            ReviewText = review.ReviewText,
+                            Title = review.Title,
+                            Stars = review.Stars,
+                            UserId = review.UserId
                         };
 
                         context.Entry(planReview).State = EntityState.Modified;
