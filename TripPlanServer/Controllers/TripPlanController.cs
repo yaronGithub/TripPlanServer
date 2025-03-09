@@ -49,6 +49,31 @@ namespace TripPlanServer.Controllers
             }
         }
 
+        [HttpGet("getUserById")]
+        public IActionResult GetUserById([FromQuery] int userId)
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                User user = context.GetUserById(userId);
+                DTO.User result = new DTO.User(user);
+
+
+                // Return the user
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpDelete("deletePlanPlace")]
         public IActionResult DeletePlanPlace([FromQuery] int placeId)
         {

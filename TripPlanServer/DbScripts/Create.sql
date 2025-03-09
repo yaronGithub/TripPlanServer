@@ -161,6 +161,7 @@ SELECT * FROM PlanGroup;
 SELECT * FROM PlanPlace;
 SELECT * FROM Places;
 
+SELECT * FROM Reviews
 
 -- Add users to the PlanGroup 'ADADAD'
 INSERT INTO UserGroup (PlanId, UserId)
