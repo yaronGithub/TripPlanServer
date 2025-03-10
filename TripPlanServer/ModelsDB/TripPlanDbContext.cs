@@ -18,6 +18,23 @@ public partial class TripPlanDbContext : DbContext
         return this.Users.Where(u => u.UserId == userId).FirstOrDefault();
     }
 
+    public int GetCategoryId(string categoryName)
+    {
+        foreach (var category in this.Categories)
+        {
+            if (category.CategoryName == categoryName)
+            {
+                return category.CategoryId;
+            }
+        }
+        return this.Categories.Count() + 1;
+    }
+
+    public bool CategoryExists(string categoryName)
+    {
+        return this.Categories.Any(c => c.CategoryName == categoryName);
+    }
+
     public List<PlanGroup>? GetAllPlanningsByEmail(string email)
     {
         return this.PlanGroups

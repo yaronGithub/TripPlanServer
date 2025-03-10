@@ -32,6 +32,7 @@ namespace TripPlanServer.DTO
             this.UserId = review.UserId;
             this.Stars = review.Stars;
             this.ReviewText = review.ReviewText;
+            this.ReviewDate = review.ReviewDate;
             //this.Plan = review.Plan;
             //this.User = review.User;
         }

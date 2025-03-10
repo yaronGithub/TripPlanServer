@@ -145,9 +145,29 @@ namespace TripPlanServer.Controllers
 
                 if (planPlaceDto.Place != null)
                 {
+                    //Models.Category category;
+                    //if (!context.CategoryExists(planPlaceDto.Place.Category.CategoryName))
+                    //{
+                    //    category = new Category()
+                    //    {
+                    //        CategoryId = context.GetCategoryId(planPlaceDto.Place.Category.CategoryName),
+                    //        CategoryName = planPlaceDto.Place.Category.CategoryName
+                    //    };
+
+                    //    context.Entry(category).State = EntityState.Added;
+                    //}else
+                    //{
+                    //    category = new Category()
+                    //    {
+                    //        CategoryId = context.GetCategoryId(planPlaceDto.Place.Category.CategoryName),
+                    //        CategoryName = planPlaceDto.Place.Category.CategoryName
+                    //    };
+                    //    context.Entry(category).State = EntityState.Modified;
+                    //}
+                    
+
                     Models.Place p = new Place()
                     {
-                        CategoryId = planPlaceDto.Place.CategoryId,
                         GooglePlaceId = planPlaceDto.Place.GooglePlaceId,
                         PlaceDescription = planPlaceDto.Place.PlaceDescription,
                         PlaceId = this.context.GetFreePlaceId(),
@@ -155,6 +175,12 @@ namespace TripPlanServer.Controllers
                         PlacePicUrl = planPlaceDto.Place.PlacePicUrl,
                         Xcoor = planPlaceDto.Place.Xcoor,
                         Ycoor = planPlaceDto.Place.Ycoor,
+                        Category = new Category
+                        {
+                            //CategoryId = context.GetCategoryId(planPlaceDto.Place.Category.CategoryName),
+                            CategoryName = planPlaceDto.Place.Category.CategoryName
+                        },
+                        CategoryId = context.GetCategoryId(planPlaceDto.Place.Category.CategoryName),
                         //Pictures = new List<Picture>()
                     };
                     context.Add(p);
