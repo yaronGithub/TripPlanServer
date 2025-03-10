@@ -35,6 +35,11 @@ public partial class TripPlanDbContext : DbContext
         return this.Categories.Any(c => c.CategoryName == categoryName);
     }
 
+    public Category GetCategoryByName(string categoryName)
+    {
+        return this.Categories.Where(c => c.CategoryName == categoryName).FirstOrDefault();
+    }
+
     public List<PlanGroup>? GetAllPlanningsByEmail(string email)
     {
         return this.PlanGroups
