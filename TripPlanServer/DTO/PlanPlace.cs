@@ -35,13 +35,16 @@ namespace TripPlanServer.DTO
                 PlaceId = this.PlaceId,
                 PlacePicUrl = planPlace.Place.PlacePicUrl,
                 PlaceName = planPlace.Place.PlaceName,
-                CategoryId = planPlace
-                .Place
-                    .CategoryId,
+                CategoryId = planPlace.Place.CategoryId,
                 PlaceDescription = planPlace.Place.PlaceDescription,
                 Xcoor = planPlace.Place.Xcoor ?? 0.0,
                 Ycoor = planPlace.Place.Ycoor ?? 0.0,
                 GooglePlaceId = planPlace.Place.GooglePlaceId,
+                Category = new Category()
+                {
+                    CategoryId = planPlace.Place.Category.CategoryId,
+                    CategoryName = planPlace.Place.Category.CategoryName
+                }
                 //Pictures = planPlace.Place.Pictures,
                 //PlanPlaces = planPlace.Place.PlanPlaces
             };

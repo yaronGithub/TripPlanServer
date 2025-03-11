@@ -99,7 +99,7 @@ public partial class TripPlanDbContext : DbContext
         return this.PlanPlaces
         .Where(pp => pp.PlanId == planId &&
                      (pp.Plan.User != null && pp.Plan.User.Email == email || pp.Plan.Users.Any(u => u.Email == email)))
-        .Include(pp => pp.Place)
+        .Include(pp => pp.Place.Category)
         .ToList();
     }
 
@@ -111,7 +111,7 @@ public partial class TripPlanDbContext : DbContext
         .Where(pp => pp.PlanId == planId &&
                      pp.PlaceDate.HasValue &&
                      pp.PlaceDate.Value.Date.Equals(day.Date))
-        .Include(pp=>pp.Place)
+        .Include(pp=>pp.Place.Category)
         .ToList();
         // return this.PlanPlaces.ToList();
         //var result = this.PlanPlaces.ToList();
