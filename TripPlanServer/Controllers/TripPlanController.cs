@@ -24,6 +24,48 @@ namespace TripPlanServer.Controllers
             this.webHostEnvironment = env;
         }
 
+
+        [HttpGet("getAllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            try
+            {
+                //Check if who is logged in
+                string? userEmail = HttpContext.Session.GetString("loggedInUser");
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return Unauthorized("User is not logged in");
+                }
+
+                List<User>? users;
+                users = context.GetAllUsers();
+                
+
+                if (users == null || users.Count == 0)
+                {
+                    return NotFound("No places found for the given date and plan id");
+                }
+
+                List<DTO.User> output = new List<DTO.User>();
+                foreach (User u in users)
+                {
+                    output.Add(new DTO.User(u));
+                }
+                if (output == null || output.Count == 0)
+                {
+                    return Ok(null);
+                }
+                // Return the places
+                return Ok(output);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
         [HttpGet("getUser")]
         public IActionResult GetUser([FromQuery] string email)
         {

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TripPlanServer.Models.Category">
+    <Position X="7.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAACAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\Category.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TripPlanServer.Models.Picture">
+    <Position X="2.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAEAAAAAAAAAAQEAABAEAAACAABAA=</HashCode>
+      <FileName>Models\Picture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TripPlanServer.Models.Place">
+    <Position X="9.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAQAAAAoAAEAwAAAAAAAAAAAAAAAAAIAAADAA=</HashCode>
+      <FileName>Models\Place.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TripPlanServer.Models.PlanGroup">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQBAGAAAAAAAAAAAAgAQAggAAAAAAAAAAAAAHAAAAE=</HashCode>
+      <FileName>Models\PlanGroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TripPlanServer.Models.PlanPlace">
+    <Position X="11.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABAEACACAABAA=</HashCode>
+      <FileName>Models\PlanPlace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TripPlanServer.Models.Review">
+    <Position X="7.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEABAAAAAAAEAEgAAAAAAAgAAAAAAAABEAAAACAAAAA=</HashCode>
+      <FileName>Models\Review.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TripPlanServer.Models.TripPlanDbContext">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQABGEIAQAUAAAAIAoAAQAAFAAAEAAAEFCAABggAAA=</HashCode>
+      <FileName>Models\TripPlanDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

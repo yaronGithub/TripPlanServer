@@ -13,6 +13,11 @@ public partial class TripPlanDbContext : DbContext
         return this.Users.Where(u => u.Email == email).FirstOrDefault();
     }
 
+    public List<User> GetAllUsers()
+    {
+        return this.Users.ToList();
+    }
+
     public User? GetUserById(int userId)
     {
         return this.Users.Where(u => u.UserId == userId).FirstOrDefault();
