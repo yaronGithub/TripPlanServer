@@ -622,6 +622,45 @@ namespace TripPlanServer.Controllers
                     }
 
                 }
+                foreach (var userDto in userPlanDto.UsersNavigation)
+                {
+                    // Example: Check if the user is new (UserId == 0)
+                    if (userDto.UserId == 0)
+                    {
+                        // New user
+                        Models.User newUser = new Models.User
+                        {
+                            FirstName = userDto.FirstName,
+                            LastName = userDto.LastName,
+                            Email = userDto.Email,
+                            Passwd = userDto.Passwd,
+                            PhoneNumber = userDto.PhoneNumber,
+                            IsManager = userDto.IsManager,
+                            PicId = userDto.PicId
+                            // Add other properties as needed
+                        };
+
+                        context.Entry(newUser).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        // Update the existing user
+                        Models.User existingUser = new Models.User
+                        {
+                            UserId = userDto.UserId,
+                            FirstName = userDto.FirstName,
+                            LastName = userDto.LastName,
+                            Email = userDto.Email,
+                            Passwd = userDto.Passwd,
+                            PhoneNumber = userDto.PhoneNumber,
+                            IsManager = userDto.IsManager,
+                            PicId = userDto.PicId
+                            // Add other properties as needed
+                        };
+
+                        context.Entry(existingUser).State = EntityState.Modified;
+                    }
+                }
                 context.SaveChanges();
 
                 //Plan was updated!
