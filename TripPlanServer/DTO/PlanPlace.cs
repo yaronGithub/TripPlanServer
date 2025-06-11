@@ -30,7 +30,7 @@ namespace TripPlanServer.DTO
             {
                 this.Pictures.Add(new Picture(picture));
             }
-            this.Place = new Place() 
+            this.Place = new Place()
             {
                 PlaceId = this.PlaceId,
                 PlacePicUrl = planPlace.Place.PlacePicUrl,
